@@ -1,5 +1,5 @@
 name: material_button_switch
-description: "A new Flutter package project."
+description: A customizable Material-style toggle switch button for Flutter apps.
 version: 0.0.1
 homepage: https://github.com/abid-mustafa/material_button_switch.git
 
