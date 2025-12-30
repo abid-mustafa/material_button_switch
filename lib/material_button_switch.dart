@@ -1,93 +1,88 @@
 import 'package:flutter/material.dart';
 
 class MaterialButtonSwitch extends StatefulWidget {
-  final Widget widget1;
-  final Widget widget2;
-  final IconData icon1;
-  final IconData icon2;
-  const MaterialButtonSwitch(
-      {super.key, required this.widget1, required this.widget2, required this.icon1, required this.icon2});
+  final List<Widget> pages;
+  final List<IconData> icons;
+  final Color activeColor;
+  final Color inactiveColor;
+
+  /// A horizontal icon switcher that controls page navigation.
+  ///
+  /// Displays a row of icons corresponding to pages. Tapping an icon jumps
+  /// to the associated page, and swiping updates the selected icon.
+  ///
+  /// Limits: maximum 5 icons/pages, each icon corresponds to exactly one page.
+  const MaterialButtonSwitch({
+    super.key,
+    required this.pages,
+    required this.icons,
+    required this.activeColor,
+    required this.inactiveColor,
+  }) : assert(
+         pages.length == icons.length && pages.length <= 5,
+         "Number of Pages and Icons must be same and less than 5",
+       );
 
   @override
   State<MaterialButtonSwitch> createState() => _MaterialButtonSwitchState();
 }
 
+/// The state for [MaterialButtonSwitch], manages page selection and controller.
 class _MaterialButtonSwitchState extends State<MaterialButtonSwitch> {
-  // Page controller to control the swiping
+  /// Controller for swiping pages.
   final PageController _pageController = PageController();
 
-  // Track the selected index
+  /// Tracks currently selected page.
   int _selectedIndex = 0;
 
   @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
-        children: [
-          // PageView for screen switching
-          PageView(
-            controller: _pageController,
+    return Stack(
+      children: [
+        // PageView for screen switching
+        PageView(
+          controller: _pageController,
+          children: widget.pages,
+          onPageChanged: (index) => {setState(() => _selectedIndex = index)},
+        ),
+        Positioned(
+          top: 16.0,
+          left: 16.0,
+          right: 16.0,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              widget.widget1, // First screen
-              widget.widget2, // Second screen
-            ],
-            onPageChanged: (index) {
-              setState(() {
-                _selectedIndex = index; // Update selected index when swiping
-              });
-            },
-          ),
-          // Positioned Row with the buttons
-          Positioned(
-            top: 16.0,
-            left: 16.0,
-            right: 16.0,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  height: 40,
-                  width: 100,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
+              Container(
+                height: 40,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
                   child: Row(
-                    children: [
-                      IconButton(
-                        onPressed: () {
-                          setState(() {
-                            _selectedIndex = 0; // Switch to widget2
-                          });
-                          // Switch to widget1
-                          _pageController.jumpToPage(0);
-                        },
-                        icon: Icon(widget.icon1),
-                        color: _selectedIndex == 0
-                            ? Colors.blue
-                            : Colors.black, // Change color if selected
-                      ),
-                      SizedBox(width: 16),
-                      IconButton(
-                        onPressed: () {
-                          setState(() {
-                            _selectedIndex = 1; // Switch to widget2
-                          });
-                          // Switch to widget2
-                          _pageController.jumpToPage(1);
-                        },
-                        icon: Icon(widget.icon2),
-                        color: _selectedIndex == 1
-                            ? Colors.blue
-                            : Colors.black, // Change color if selected
-                      ),
-                    ],
+                    children: List.generate(widget.icons.length, (index) {
+                      return IconButton(
+                        icon: Icon(widget.icons[index]),
+                        color:
+                            _selectedIndex == index
+                                ? widget.activeColor
+                                : widget.inactiveColor,
+                        onPressed: () => {_pageController.jumpToPage(index)},
+                      );
+                    }),
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

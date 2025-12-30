@@ -16,10 +16,10 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
       home: MaterialButtonSwitch(
-        widget1: PageOne(),
-        widget2: PageTwo(),
-        icon1: Icons.calendar_today,
-        icon2: Icons.check_box_outlined,
+        pages: [PageOne(), PageTwo(), PageThree()],
+        icons: [Icons.calendar_today, Icons.check_box_outlined, Icons.alarm],
+        activeColor: Colors.blue,
+        inactiveColor: Colors.grey,
       ),
     );
   }
@@ -40,5 +40,14 @@ class PageTwo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(body: Center(child: Text("Page Two")));
+  }
+}
+
+class PageThree extends StatelessWidget {
+  const PageThree({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(body: Center(child: Text("Page Three")));
   }
 }

@@ -1,7 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:material_button_switch/material_button_switch.dart';
-
 void main() {
   test('adds one to input values', () {
     // final calculator = Calculator();

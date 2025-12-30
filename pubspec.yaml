@@ -1,6 +1,6 @@
 name: material_button_switch
 description: A customizable Material-style toggle switch button for Flutter apps.
-version: 0.0.1
+version: 0.1.0
 homepage: https://github.com/abid-mustafa/material_button_switch.git
 
 environment:
@@ -14,7 +14,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^5.0.0
+  flutter_lints: ^6.0.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -52,3 +52,7 @@ flutter:
   #
   # For details regarding fonts in packages, see
   # https://flutter.dev/to/font-from-package
+
+linter:
+  rules:
+    - public_member_api_docs
