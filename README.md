@@ -1,16 +1,17 @@
 # Material Button Switch
 
-A simple and elegant Flutter widget that allows users to switch between two customizable screens using Material-style toggle buttons. Ideal for apps that need quick, intuitive toggling between two views, like calendars, checklists, or dashboards.
+A simple and elegant Flutter widget that lets users switch between multiple customizable screens using Material-style toggle buttons. Ideal for apps requiring quick, intuitive toggling between views, such as calendars, checklists, or dashboards with two or more pages.
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/794da05a-c4b9-48ce-8735-d7da36064112" alt="Material Button Switch Demo" width="600"/>
+  <img src="https://github.com/user-attachments/assets/5c5930eb-c021-4bdc-bbd3-3d7ee6878142" alt="Material Button Switch Demo" width="600"/>
 </p>
 
 ## ✨ Features
 
-- Two-icon Material button switcher.
-- Smooth transition between two custom widgets.
+- Multi-icon Material button switcher.
+- Smooth transition between custom widgets.
 - Customizable icons and widgets.
+- Dynamic active and inactive colors.
 - Highlighted icon for the active view.
 - Minimal, intuitive design.
 
@@ -20,7 +21,7 @@ To use this package, add it to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  material_button_switch: ^0.0.1
+  material_button_switch: ^0.1.0
 ```
 
 Then run:
@@ -46,10 +47,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: MaterialButtonSwitch(
-        widget1: const PageOne(),
-        widget2: const PageTwo(),
-        icon1: Icons.calendar_today,
-        icon2: Icons.check_box_outlined,
+        pages: const [PageOne(), PageTwo(), PageThree()],
+        icons: const [Icons.calendar_today, Icons.check_box_outlined, Icons.dashboard],
+        activeColor: Colors.blue,
+        inactiveColor: Colors.grey,
       ),
     );
   }
@@ -70,22 +71,30 @@ class PageTwo extends StatelessWidget {
     return const Scaffold(body: Center(child: Text("Page Two")));
   }
 }
+
+class PageThree extends StatelessWidget {
+  const PageThree({super.key});
+  @override
+  Widget build(BuildContext context) {
+    return const Scaffold(body: Center(child: Text("Page Three")));
+  }
+}
 ```
 
 ## 📦 Constructor
 
 ```dart
 MaterialButtonSwitch({
-  required Widget widget1,
-  required Widget widget2,
-  required IconData icon1,
-  required IconData icon2,
+  required List<Widget> pages,
+  required List<IconData> icons,
+  required Color activeColor,
+  required Color inactiveColor,
 });
 ```
 
-| Parameter | Description |
-|----------|-------------|
-| `widget1` | First view to display. |
-| `widget2` | Second view to display. |
-| `icon1` | Icon for first view. |
-| `icon2` | Icon for second view. |
+| Parameter       | Description                                                 |
+| --------------- | ----------------------------------------------------------- |
+| `pages`         | List of views to display; each page corresponds to an icon. |
+| `icons`         | List of icons representing each page.                       |
+| `activeColor`   | Color of the currently active icon.                         |
+| `inactiveColor` | Color of inactive icons.                                    |
